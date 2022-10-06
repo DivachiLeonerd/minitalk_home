@@ -36,10 +36,3 @@ int	main(int argc, char **argv)
 		pause();
 	}
 }
-
-//transform 1 char to 8 charrepresenting bits
-
-char	*itobi(int i)
-{
-	
-}
