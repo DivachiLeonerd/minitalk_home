@@ -6,40 +6,53 @@
 /*   By: afonso <afonso@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 10:02:08 by afonso            #+#    #+#             */
-/*   Updated: 2022/06/21 18:10:03 by afonso           ###   ########.fr       */
+/*   Updated: 2022/10/06 11:34:54 by afonso           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
 
-void	print_hello(int signal)
+char	ft_power(unsigned char base, unsigned char power)
 {
-	printf("signal:%d\n", signal);
-	write(1, "HELLO WORLD\n", 13);
+	unsigned char	sum;
+
+	sum = 1;
+	while (power)
+	{
+		sum = sum * base;
+		power--;
+	}
+	return (sum);
+}
+
+void	read_signals(int signal)
+{
+	static unsigned int		c;
+	static int				counter;
+
+	if (signal == SIGUSR1)
+		c += ft_power(2, counter);
+	counter++;
+	if (counter == 8)
+	{
+		counter = 0;
+		write(1, &c, 1);
+		c = 0;
+	}
 	return ;
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	__pid_t				pid;
 	struct sigaction	sigact;
-	struct sigaction	old_sigact;
-	sigset_t			sigset;
 
+	sigact.sa_flags = SA_RESTART;
+	sigact.sa_handler = read_signals;
+	sigaction(SIGUSR1, &sigact, NULL);
+	sigaction(SIGUSR2, &sigact, NULL);
+	pid = getpid();
+	ft_printf("PID:%d\n", pid);
 	while (1)
-	{
-		sigact.sa_flags = SA_RESTART;
-		sigact.sa_handler = &print_hello;
-		pid = getpid();
-		printf("PID:%d\n", pid);
-		sigaction(SIGUSR1, &sigact, NULL);
 		pause();
-	}
-}
-
-//transform 1 char to 8 charrepresenting bits
-
-char	*itobi(int i)
-{
-	
 }

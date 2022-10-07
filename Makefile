@@ -6,17 +6,16 @@
 #    By: afonso <afonso@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/10 17:21:03 by atereso-          #+#    #+#              #
-#    Updated: 2022/06/21 15:44:44 by afonso           ###   ########.fr        #
+#    Updated: 2022/10/06 11:37:47 by afonso           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := minitalk
 HEADER := -I./
-OBJS_S := ./server_assets/*.o
-OBJS_C := ./client_assets/*.o
-OBJS_T :=
+OBJS_S := ./server_assets/server.o
+OBJS_C := ./client_assets/client.o
 CC := gcc
-CFLAGS := #-Wall -Wextra -Werror -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror
 LIBPATHS := -L./ -lftprintf
 RM := rm -f
 
@@ -43,7 +42,7 @@ libftprintf.a:
 	${MAKE} -C ../printf42/libft clean
 
 clean:
-	${RM} ${OBJS_S} ${OBJS_C}
+	${RM} ${OBJS_S} ${OBJS_C} 
 
 fclean: clean
 	${RM} ${NAME}
